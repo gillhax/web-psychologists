@@ -6,7 +6,7 @@
     <artifactId>web-psychologists</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
-    <name>web-psychologists Maven Webapp</name>
+    <name>web-psychologists</name>
     <url>http://maven.apache.org</url>
 
     <properties>
