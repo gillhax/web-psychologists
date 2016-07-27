@@ -24,7 +24,7 @@ public class Psychologist implements Serializable {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "psychologist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "psychologist",  fetch = FetchType.EAGER)
     private List<Publication> publications;
 
     public Integer getId() {
