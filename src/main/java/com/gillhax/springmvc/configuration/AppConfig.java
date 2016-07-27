@@ -4,12 +4,16 @@ package com.gillhax.springmvc.configuration;
  * Created by alex on 25.07.2016.
  */
 
+import com.gillhax.springmvc.converter.ProblemIdToProblemConverter;
+import com.gillhax.springmvc.converter.PsychologistIdToPsychologistConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -25,6 +29,12 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.gillhax.springmvc")
 public class AppConfig extends WebMvcConfigurerAdapter{
 
+
+    @Autowired
+    ProblemIdToProblemConverter problemIdToProblemConverter;
+
+    @Autowired
+    PsychologistIdToPsychologistConverter psychologistIdToPsychologistConverter;
 
     /**
      * Configure ViewResolvers to deliver preferred views.
@@ -46,6 +56,14 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
+    /**
+     * Configure Converter to be used.
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(problemIdToProblemConverter);
+        registry.addConverter(psychologistIdToPsychologistConverter);
+    }
 
     /**
      * Configure MessageSource to lookup any validation/error message in internationalized property files

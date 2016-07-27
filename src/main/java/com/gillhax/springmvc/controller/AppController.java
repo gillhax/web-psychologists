@@ -43,9 +43,7 @@ public class AppController {
     @Autowired
     MessageSource messageSource;
 
-    /**
-     * This method will list all existing users.
-     */
+
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
         List<Problem> problems = problemService.findAllProblem();
@@ -56,5 +54,148 @@ public class AppController {
         model.addAttribute("publications", publications);
         return "list";
     }
+
+
+    //!! Problem resolves
+
+    @RequestMapping(value = { "/new-problem" }, method = RequestMethod.GET)
+    public String newProblem(ModelMap model) {
+        model.addAttribute("problem", new Problem());
+        model.addAttribute("edit", false);
+        return "change-problem";
+    }
+
+    @RequestMapping(value = { "/new-problem" }, method = RequestMethod.POST)
+    public String saveProblem(@Valid Problem problem, BindingResult result,
+                           ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("edit", false);
+            return "change-problem";
+        }
+        problemService.saveProblem(problem);
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/edit-problem-{id}" }, method = RequestMethod.GET)
+    public String editProblem(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("problem", problemService.findById(id));
+        model.addAttribute("edit", true);
+        return "change-problem";
+    }
+
+    @RequestMapping(value = { "/edit-problem-{id}" }, method = RequestMethod.POST)
+    public String updateProblem(@Valid Problem problem, BindingResult result,
+                             ModelMap model, @PathVariable Integer id) {
+        if (result.hasErrors()) {
+            model.addAttribute("edit", true);
+            return "change-problem";
+        }
+        problemService.updateProblem(problem);
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/delete-problem-{id}" }, method = RequestMethod.GET)
+    public String deleteProblem(@PathVariable Integer id) {
+        problemService.deleteProblemById(id);
+        return "redirect:/list";
+    }
+
+
+    //!! Psychologist resolves
+
+    @RequestMapping(value = { "/new-psychologist" }, method = RequestMethod.GET)
+    public String newPsychologist(ModelMap model) {
+        model.addAttribute("psychologist", new Psychologist());
+        model.addAttribute("edit", false);
+        return "change-psychologist";
+    }
+
+    @RequestMapping(value = { "/new-psychologist" }, method = RequestMethod.POST)
+    public String savePsychologist(@Valid Psychologist psychologist, BindingResult result,
+                              ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("edit", false);
+            return "change-psychologist";
+        }
+        psychologistService.savePsychologist(psychologist);
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/edit-psychologist-{id}" }, method = RequestMethod.GET)
+    public String editPsychologist(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("psychologist", psychologistService.findById(id));
+        model.addAttribute("edit", true);
+        return "change-psychologist";
+    }
+
+    @RequestMapping(value = { "/edit-psychologist-{id}" }, method = RequestMethod.POST)
+    public String updatePsychologist(@Valid Psychologist psychologist, BindingResult result,
+                                ModelMap model, @PathVariable Integer id) {
+        if (result.hasErrors()) {
+            model.addAttribute("edit", true);
+            return "change-psychologist";
+        }
+        psychologistService.updatePsychologist(psychologist);
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/delete-psychologist-{id}" }, method = RequestMethod.GET)
+    public String deletePsychologist(@PathVariable Integer id) {
+        psychologistService.deletePsychologistById(id);
+        return "redirect:/list";
+    }
+
+    //!! Publication resolves
+
+    @RequestMapping(value = { "/new-publication" }, method = RequestMethod.GET)
+    public String newPublication(ModelMap model) {
+        model.addAttribute("publication", new Publication());
+        model.addAttribute("problems", problemService.findAllProblem());
+        model.addAttribute("psychologists", psychologistService.findAllPsychologist());
+        model.addAttribute("edit", false);
+        return "change-publication";
+    }
+
+    @RequestMapping(value = { "/new-publication" }, method = RequestMethod.POST)
+    public String savePublication(@Valid Publication publication, BindingResult result,
+                                   ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("edit", false);
+            model.addAttribute("problems", problemService.findAllProblem());
+            model.addAttribute("psychologists", psychologistService.findAllPsychologist());
+            return "change-publication";
+        }
+        publicationService.savePublication(publication);
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/edit-publication-{id}" }, method = RequestMethod.GET)
+    public String editPublication(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("publication", publicationService.findById(id));
+        model.addAttribute("problems", problemService.findAllProblem());
+        model.addAttribute("psychologists", psychologistService.findAllPsychologist());
+        model.addAttribute("edit", true);
+        return "change-publication";
+    }
+
+    @RequestMapping(value = { "/edit-publication-{id}" }, method = RequestMethod.POST)
+    public String updatePublication(@Valid Publication publication, BindingResult result,
+                                     ModelMap model, @PathVariable Integer id) {
+        if (result.hasErrors()) {
+            model.addAttribute("problems", problemService.findAllProblem());
+            model.addAttribute("psychologists", psychologistService.findAllPsychologist());
+            model.addAttribute("edit", true);
+            return "change-publication";
+        }
+        publicationService.updatePublication(publication);
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/delete-publication-{id}" }, method = RequestMethod.GET)
+    public String deletePublication(@PathVariable Integer id) {
+        publicationService.deletePublicationById(id);
+        return "redirect:/list";
+    }
+
 
 }
