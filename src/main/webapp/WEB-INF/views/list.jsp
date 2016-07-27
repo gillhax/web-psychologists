@@ -15,6 +15,8 @@
     <tr>
         <th>ID</th>
         <th>Problem Name</th>
+        <th width="30"></th>
+        <th>Publications about problem</th>
         <th width="40"></th>
         <th width="40"></th>
     </tr>
@@ -24,6 +26,8 @@
         <tr>
             <td>${problem.id}</td>
             <td>${problem.name}</td>
+            <td></td><td><c:forEach items="${problem.publications}" var="publication">
+                ${publication.title}, </c:forEach></td>
             <td><a href="<c:url value='/edit-problem-${problem.id}' />" class="btn btn-success custom-width">edit</a></td>
             <td><a href="<c:url value='/delete-problem-${problem.id}' />" class="btn btn-danger custom-width">delete</a></td>
         </tr>
@@ -40,6 +44,8 @@
     <tr>
         <th>ID</th>
         <th>Psychologist Name</th>
+        <th width="30"></th>
+        <th>Publications by psychologist</th>
         <th width="40"></th>
         <th width="40"></th>
     </tr>
@@ -49,6 +55,8 @@
         <tr>
             <td>${psychologist.id}</td>
             <td>${psychologist.name}</td>
+            <td></td><td><c:forEach items="${psychologist.publications}" var="publication">
+                ${publication.title}, </c:forEach></td>
             <td><a href="<c:url value='/edit-psychologist-${psychologist.id}' />" class="btn btn-success custom-width">edit</a></td>
             <td><a href="<c:url value='/delete-psychologist-${psychologist.id}' />" class="btn btn-danger custom-width">delete</a></td>
         </tr>

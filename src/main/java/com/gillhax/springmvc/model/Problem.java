@@ -24,7 +24,7 @@ public class Problem implements Serializable{
     @Column(name="NAME", nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Publication> publications;
 
     public Integer getId() {
