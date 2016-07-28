@@ -7,6 +7,8 @@ CREATE TABLE PROBLEM(
 CREATE TABLE PSYCHOLOGIST(
     psychologist_id INT NOT NULL auto_increment,
     name VARCHAR(255) NOT NULL,
+    contacts VARCHAR(255) NOT NULL,
+    about TEXT NOT NULL,
     PRIMARY KEY (psychologist_id)
 );
 

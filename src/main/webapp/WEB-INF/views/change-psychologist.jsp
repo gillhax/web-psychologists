@@ -31,6 +31,24 @@
             </div>
         </div>
 
+
+        <label class="col-md-3 control-lable" for="contacts">contacts</label>
+        <div class="col-md-7">
+            <form:textarea  type="text" path="contacts" id="contacts" class="form-control input-sm"/>
+            <div class="has-error">
+                <form:errors path="contacts" class="help-inline"/>
+            </div>
+        </div>
+
+
+        <label class="col-md-3 control-lable" for="about">about</label>
+        <div class="col-md-7">
+            <form:textarea  type="text" path="about" id="about" class="form-control input-sm"/>
+            <div class="has-error">
+                <form:errors path="about" class="help-inline"/>
+            </div>
+        </div>
+
         <br>
         <c:choose>
             <c:when test="${edit}">

@@ -24,6 +24,14 @@ public class Psychologist implements Serializable {
     @Column(name = "NAME", nullable = false)
     private String name;
 
+    @NotEmpty
+    @Column(name = "CONTACTS", nullable = false)
+    private String contacts;
+
+    @NotEmpty
+    @Column(name = "ABOUT", nullable = false)
+    private String about;
+
     @OneToMany(mappedBy = "psychologist",  fetch = FetchType.EAGER)
     private List<Publication> publications;
 
@@ -43,6 +51,22 @@ public class Psychologist implements Serializable {
         this.name = name;
     }
 
+    public String getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
     public List<Publication> getPublications() {
         return publications;
     }
@@ -57,6 +81,8 @@ public class Psychologist implements Serializable {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
+        result = prime * result + ((about == null) ? 0 : about.hashCode());
         return result;
     }
 
@@ -79,12 +105,22 @@ public class Psychologist implements Serializable {
                 return false;
         } else if (!name.equals(other.name))
             return false;
+        if (contacts == null) {
+            if (other.contacts != null)
+                return false;
+        } else if (!contacts.equals(other.contacts))
+            return false;
+        if (about == null) {
+            if (other.about != null)
+                return false;
+        } else if (!about.equals(other.about))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Psychologist [id=" + id + ", name=" + name + "]";
+        return "Psychologist [id=" + id + ", name=" + name + ", contacts=" + contacts + ", about=" + about + "]";
     }
 
 }

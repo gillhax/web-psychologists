@@ -31,6 +31,8 @@ public class PsychologistServiceImpl implements PsychologistService{
         Psychologist entity = dao.findById(psychologist.getId());
         if(entity!=null){
             entity.setName(psychologist.getName());
+            entity.setContacts(psychologist.getContacts());
+            entity.setAbout(psychologist.getAbout());
         }
     }
 
