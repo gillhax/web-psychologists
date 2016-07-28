@@ -43,6 +43,14 @@ public class AppController {
     @Autowired
     MessageSource messageSource;
 
+    @RequestMapping(value = {  "/publication-{id}" }, method = RequestMethod.GET)
+    public String listPublication(ModelMap model, @PathVariable Integer id) {
+        List<Problem> problems = problemService.findAllProblem();
+        model.addAttribute("problems", problems);
+
+        model.addAttribute("publication", publicationService.findById(id));
+        return "publication";
+    }
 
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
