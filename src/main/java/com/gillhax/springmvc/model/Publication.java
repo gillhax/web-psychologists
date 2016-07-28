@@ -5,6 +5,7 @@ package com.gillhax.springmvc.model;
  */
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.persistence.*;
 
@@ -22,6 +23,11 @@ public class Publication implements Serializable {
     @NotEmpty
     @Column(name = "TITLE", nullable = false)
     private String title;
+
+    @NotEmpty
+    @Lob
+    @Column(name = "CONTENT", nullable = false, columnDefinition = "MEDIUMTEXT")
+    private String content;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "PROBLEM_ID")
@@ -47,6 +53,15 @@ public class Publication implements Serializable {
         this.title = title;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
     public Problem getProblem() {
         return problem;
     }
@@ -69,6 +84,7 @@ public class Publication implements Serializable {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((content == null) ? 0 : content.hashCode());
         return result;
     }
 
@@ -91,12 +107,17 @@ public class Publication implements Serializable {
                 return false;
         } else if (!title.equals(other.title))
             return false;
+        if (content == null) {
+            if (other.content != null)
+                return false;
+        } else if (!content.equals(other.content))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Publication [id=" + id + ", title=" + title + "]";
+        return "Publication [id=" + id + ", title=" + title + ", content=" + content + "]";
     }
 
 }

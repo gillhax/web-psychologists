@@ -54,6 +54,15 @@
             </div>
         </div>
 
+
+        <label class="col-md-3 control-lable" for="content">content</label>
+        <div class="col-md-7">
+            <form:textarea   path="content" id="content" class="form-control input-sm" />
+            <div class="has-error">
+                <form:errors path="content" class="help-inline"/>
+            </div>
+        </div>
+
         <br>
         <c:choose>
             <c:when test="${edit}">

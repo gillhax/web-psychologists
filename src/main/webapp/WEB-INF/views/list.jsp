@@ -73,6 +73,7 @@
     <tr>
         <th>ID</th>
         <th>Publication Title</th>
+        <th>Publication Content</th>
         <th>Problem ID</th>
         <th>Problem Name</th>
         <th>Psychologist ID</th>
@@ -86,6 +87,7 @@
         <tr>
             <td>${publication.id}</td>
             <td>${publication.title}</td>
+            <td>${publication.content}</td>
             <td>${publication.problem.id}</td>
             <td>${publication.problem.name}</td>
             <td>${publication.psychologist.id}</td>

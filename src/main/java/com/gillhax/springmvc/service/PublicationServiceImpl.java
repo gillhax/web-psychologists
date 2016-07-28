@@ -31,6 +31,7 @@ public class PublicationServiceImpl implements PublicationService {
         Publication entity = dao.findById(publication.getId());
         if(entity!=null){
             entity.setTitle(publication.getTitle());
+            entity.setContent(publication.getContent());
             entity.setProblem(publication.getProblem());
             entity.setPsychologist(publication.getPsychologist());
         }
