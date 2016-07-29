@@ -34,18 +34,35 @@
         <div class="col-md-3">
 
 
-                <ul class="nav  nav-stacked  " id="stacked-menu">
-                    <c:forEach items="${problems}" var="problem">
-                    <li>
-                        <a  class="list-group-item list-group-item-success" href="#" data-target="#${problem.id}" data-toggle="collapse" data-parent="#stacked-menu">${problem.name}<span class="caret arrow"></span></a>
-                        <ul class="nav nav-stacked collapse  list-group" id="${problem.id}">
-                            <c:forEach items="${problem.publications}" var="publication">
-                                <li><a  class="list-group-item" href="/publication-${publication.id}">${publication.title}</a></li>
-                            </c:forEach>
-                        </ul>
-                    </li>
+            <ul class="nav  nav-stacked  " id="stacked-menu">
+                <c:forEach items="${problems}" var="problem">
+                <li>
+                    <a  class="list-group-item list-group-item-success" href="#" data-target="#s${problem.id}" data-toggle="collapse" data-parent="#stacked-menu">${problem.name}<span class="caret arrow"></span></a>
+                    <ul class="nav nav-stacked collapse  list-group" id="s${problem.id}">
+                        <c:forEach items="${problem.publications}" var="publication">
+                            <li><a  class="list-group-item" href="/publication-${publication.id}">${publication.title}</a></li>
+                        </c:forEach>
+                    </ul>
+                </li>
+                </c:forEach>
+            </ul>
+
+        <ul>
+            <c:forEach items="${problems}" var="problem">
+             <li>
+                <a href="#">
+                    <span data-toggle="collapse" href="#${problem.id}">${problem.name}</span>
+                </a>
+                <ul class="collapse in" id="${problem.id}">
+                    <c:forEach items="${problem.publications}" var="publication">
+                        <li>
+                            <a class=""  href="/publication-${publication.id}">${publication.title}</a>
+                        </li>
                     </c:forEach>
                 </ul>
+             </li>
+            </c:forEach>
+        </ul>
 
 
         </div>
