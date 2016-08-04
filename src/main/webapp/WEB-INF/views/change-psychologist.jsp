@@ -19,9 +19,9 @@
     </c:otherwise>
 </c:choose>
 <div class="generic-container">
-    <form:form method="POST" modelAttribute="psychologist" class="form-horizontal">
+    <form:form method="POST" commandName="psychologistForm" modelAttribute="psychologistForm" class="form-horizontal" enctype="multipart/form-data" >
         <form:input type="hidden" path="id" id="id"/>
-
+        <form:input type="hidden" path="photo" id="photo"/>
 
         <label class="col-md-3 control-lable" for="name">name</label>
         <div class="col-md-7">
@@ -48,6 +48,14 @@
                 <form:errors path="about" class="help-inline"/>
             </div>
         </div>
+
+        <c:choose>
+        <c:when test="${edit}"><tr><td  colspan="2"><img style=" margin-left: 70px"  src="${psychologistForm.photo}" width="200" height="200" /><</c:when>
+        </c:choose>
+        <label for="file" >Путь к фотографии психолога: </label>
+        <form:input type="file" accept="image/*" path="file" id="file" />
+        <form:errors path="file" cssClass="error"/>
+
 
         <br>
         <c:choose>

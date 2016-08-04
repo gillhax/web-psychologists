@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -29,6 +30,10 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.gillhax.springmvc")
 public class AppConfig extends WebMvcConfigurerAdapter{
 
+    @Bean(name="multipartResolver")
+    public StandardServletMultipartResolver resolver(){
+        return new StandardServletMultipartResolver();
+    }
 
     @Autowired
     ProblemIdToProblemConverter problemIdToProblemConverter;
@@ -54,6 +59,8 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+        registry.addResourceHandler("/photo/**").
+                addResourceLocations("file:D:\\Project\\Java\\apache-tomcat-7.0.70\\userdata\\photo\\");
     }
 
     /**
@@ -72,6 +79,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
 

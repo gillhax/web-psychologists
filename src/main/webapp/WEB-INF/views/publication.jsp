@@ -80,7 +80,8 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-                    <img src="/static/image/avatar-temp.svg" class="img-thumbnail">
+                    <%--<img src="/static/image/avatar-temp.svg" class="img-thumbnail">--%>
+                    <img height="200" width="200" src="${publication.psychologist.photo}" class="img-thumbnail">
                     <h5>${publication.psychologist.name}</h5>
 
                     <p>Контакты: ${publication.psychologist.contacts}</p>

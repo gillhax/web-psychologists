@@ -45,6 +45,7 @@
         <th>ID</th>
         <th>Psychologist Name</th>
         <th>Psychologist Contacts</th>
+        <th>Psychologist Photo</th>
         <th>AboutPsychologist</th>
         <th width="30"></th>
         <th>Publications by psychologist</th>
@@ -58,6 +59,7 @@
             <td>${psychologist.id}</td>
             <td>${psychologist.name}</td>
             <td>${psychologist.contacts}</td>
+            <td><img src="${psychologist.photo}" height="200" width="200" /></td>
             <td>${psychologist.about}</td>
             <td></td><td><c:forEach items="${psychologist.publications}" var="publication">
                 ${publication.title}, </c:forEach></td>

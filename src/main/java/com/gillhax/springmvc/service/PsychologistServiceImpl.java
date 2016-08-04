@@ -33,6 +33,7 @@ public class PsychologistServiceImpl implements PsychologistService{
             entity.setName(psychologist.getName());
             entity.setContacts(psychologist.getContacts());
             entity.setAbout(psychologist.getAbout());
+            entity.setPhoto(psychologist.getPhoto());
         }
     }
 

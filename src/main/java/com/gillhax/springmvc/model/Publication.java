@@ -107,17 +107,12 @@ public class Publication implements Serializable {
                 return false;
         } else if (!title.equals(other.title))
             return false;
-        if (content == null) {
-            if (other.content != null)
-                return false;
-        } else if (!content.equals(other.content))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Publication [id=" + id + ", title=" + title + ", content=" + content + "]";
+        return "Publication [id=" + id + ", title=" + title + "]";
     }
 
 }
