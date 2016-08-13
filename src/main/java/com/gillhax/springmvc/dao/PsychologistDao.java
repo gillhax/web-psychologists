@@ -10,12 +10,15 @@ import java.util.List;
 
 public interface PsychologistDao {
 
-    public Psychologist findById(int id);
+    Psychologist findById(int id);
 
-    public List<Psychologist> findAllPsychologist();
+    Psychologist findByUsername(String username);
+
+    List<Psychologist> findAllPsychologist();
 
     void save(Psychologist psychologist);
 
     void deleteById(int id);
 
+    boolean isUsernameUnique(Integer id, String username);
 }

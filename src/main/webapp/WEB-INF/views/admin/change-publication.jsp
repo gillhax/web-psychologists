@@ -68,18 +68,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="psychologist">Психолог</label>
-                                <form:select type="text" path="psychologist" id="psychologist" class="form-control">
-                                    <c:forEach items="${psychologists}" var="psychologist">
-                                        <form:option value="${psychologist.id}">${psychologist.name}</form:option>
-                                    </c:forEach>
-                                </form:select>
-                                <div class="has-warning">
-                                    <form:errors  path="psychologist" class="form-control"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="title">Название публикации</label>
                                 <form:input  type="text" path="title"  id="title"  class="form-control" placeholder="Название публикации" />
                                 <div class="has-warning">

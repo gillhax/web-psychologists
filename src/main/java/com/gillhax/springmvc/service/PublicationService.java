@@ -1,5 +1,6 @@
 package com.gillhax.springmvc.service;
 
+import com.gillhax.springmvc.model.Psychologist;
 import com.gillhax.springmvc.model.Publication;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface PublicationService {
     void deletePublicationById(int id);
 
     List<Publication> findAllPublication();
+
+    List<Publication> findPublicationsByPsychologist(Psychologist psychologist);
 
 }

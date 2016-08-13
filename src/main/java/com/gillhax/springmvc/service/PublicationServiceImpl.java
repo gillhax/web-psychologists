@@ -1,6 +1,7 @@
 package com.gillhax.springmvc.service;
 
 import com.gillhax.springmvc.dao.PublicationDao;
+import com.gillhax.springmvc.model.Psychologist;
 import com.gillhax.springmvc.model.Publication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,10 @@ public class PublicationServiceImpl implements PublicationService {
 
     public List<Publication> findAllPublication() {
         return dao.findAllPublication();
+    }
+
+    public List<Publication> findPublicationsByPsychologist(Psychologist psychologist) {
+        return  dao.findPublicationsByPsychologist(psychologist);
     }
 
 }

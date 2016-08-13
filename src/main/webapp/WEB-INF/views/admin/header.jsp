@@ -31,14 +31,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span>Управление</span> сайтом</a>
+            <a class="navbar-brand" href="<c:url value="/admin" />"><span>Управление</span> сайтом</a>
             <ul class="user-menu">
                 <li class="dropdown pull-right">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Admin <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> ${username} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Посмотреть профиль</a></li>
-                        <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Редактировать профиль</a></li>
-                        <li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Выйти</a></li>
+                        <li><a href="<c:url value="/admin" />"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Мой профиль</a></li>
+                        <li><a href="<c:url value="/admin/edit-psychologist" />"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Редактировать профиль</a></li>
+                        <li><a href="<c:url value="/logout" />"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Выйти</a></li>
                     </ul>
                 </li>
             </ul>
@@ -52,11 +52,12 @@
 
 
     <ul class="nav menu">
-        <li><a href="/admin/problems"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Проблемы</a></li>
-        <li class="active"><a href="/admin/publications"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Публикации</a></li>
-
         <li role="presentation" class="divider"></li>
-        <li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Страница входа</a></li>
+        <li><a href="/admin/problems"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Проблемы</a></li>
+        <%--<li class="active"></li>--%>
+        <li><a href="/admin/publications"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Публикации</a></li>
+        <li role="presentation" class="divider"></li>
+        <li><a href="<c:url value="/admin/login" />"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Страница входа</a></li>
     </ul>
 
 </div><!--/.sidebar-->

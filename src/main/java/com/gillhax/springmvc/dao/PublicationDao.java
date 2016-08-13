@@ -1,5 +1,6 @@
 package com.gillhax.springmvc.dao;
 
+import com.gillhax.springmvc.model.Psychologist;
 import com.gillhax.springmvc.model.Publication;
 
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.List;
 
 public interface PublicationDao {
 
-    public Publication findById(int id);
+    Publication findById(int id);
 
-    public List<Publication> findAllPublication();
+    List<Publication> findAllPublication();
+
+    List<Publication> findPublicationsByPsychologist(Psychologist psychologist);
 
     void save(Publication publication);
 

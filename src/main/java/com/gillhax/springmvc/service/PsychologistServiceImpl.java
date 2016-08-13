@@ -23,6 +23,10 @@ public class PsychologistServiceImpl implements PsychologistService{
         return dao.findById(id);
     }
 
+    public Psychologist findByUsername(String username) {
+        return dao.findByUsername(username);
+    }
+
     public void savePsychologist(Psychologist psychologist) {
         dao.save(psychologist);
     }
@@ -34,6 +38,8 @@ public class PsychologistServiceImpl implements PsychologistService{
             entity.setContacts(psychologist.getContacts());
             entity.setAbout(psychologist.getAbout());
             entity.setPhoto(psychologist.getPhoto());
+            entity.setUsername(psychologist.getUsername());
+            entity.setPassword(psychologist.getPassword());
         }
     }
 

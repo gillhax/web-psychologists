@@ -11,6 +11,8 @@ public interface PsychologistService {
 
     Psychologist findById(int id);
 
+    Psychologist findByUsername(String username);
+
     void savePsychologist(Psychologist psychologist);
 
     void updatePsychologist(Psychologist psychologist);

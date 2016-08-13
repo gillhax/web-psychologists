@@ -28,6 +28,14 @@ public class Psychologist implements Serializable {
     private String name;
 
     @NotEmpty
+    @Column(name="USERNAME", unique=true, nullable=false)
+    private String username;
+
+    @NotEmpty
+    @Column(name="PASSWORD", nullable=false)
+    private String password;
+
+    @NotEmpty
     @Column(name = "CONTACTS", nullable = false)
     private String contacts;
 
@@ -52,6 +60,21 @@ public class Psychologist implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -107,7 +130,7 @@ public class Psychologist implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
@@ -125,17 +148,17 @@ public class Psychologist implements Serializable {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (name == null) {
-            if (other.name != null)
+        if (username == null) {
+            if (other.username != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!username.equals(other.username))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Psychologist [id=" + id + ", name=" + name + ", contacts=" + contacts + ", about=" + about + "]";
+        return "Psychologist [id=" + id + ", username=" + username + ", name=" + name + ", contacts=" + contacts + ", about=" + about + "]";
     }
 
 }

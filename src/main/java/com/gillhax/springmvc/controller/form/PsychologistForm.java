@@ -33,6 +33,8 @@ public class PsychologistForm extends Psychologist {
         this.setContacts(psychologist.getContacts());
         this.setAbout(psychologist.getAbout());
         this.setPhoto(psychologist.getPhoto());
+        this.setPassword(psychologist.getPassword());
+        this.setUsername(psychologist.getUsername());
     }
 
     public Psychologist getPsychologist() {
@@ -42,6 +44,8 @@ public class PsychologistForm extends Psychologist {
         psychologist.setContacts(this.getContacts());
         psychologist.setAbout(this.getAbout());
         psychologist.setPhoto(this.getPhoto());
+        psychologist.setUsername(this.getUsername());
+        psychologist.setPassword(this.getPassword());
         return psychologist;
     }
 
@@ -56,7 +60,6 @@ public class PsychologistForm extends Psychologist {
         file.transferTo(new File(destPath));
         this.setPhoto(source);
         return getPsychologist();
-
     }
 
 

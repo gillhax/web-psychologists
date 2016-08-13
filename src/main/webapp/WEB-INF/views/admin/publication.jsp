@@ -27,13 +27,13 @@
 
                 </div>
                 <div class="panel-body">
-                    <table data-toggle="table" data-show-columns="true" data-show-toggle="true"  data-search="true" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+                    <table data-toggle="table" data-show-columns="true" data-show-toggle="true"  data-search="true" data-pagination="true" data-sort-name="title" data-sort-order="desc">
                         <thead>
                         <tr>
                             <th data-field="id" data-align="right"   data-sortable="true">Номер</th>
                             <th data-field="title" data-sortable="true">Название публикации</th>
                             <th data-field="problem" data-sortable="true">Проблема</th>
-                            <th data-field="psychologist" data-sortable="true">Психолог</th>
+                            <%--<th data-field="psychologist" data-sortable="true">Психолог</th>--%>
                             <th data-field="edit" data-align="center" >Редактировать</th>
                             <th data-field="delete" data-align="center" >Удалить</th>
                         </tr>
@@ -44,7 +44,7 @@
                                 <td>${publication.id}</td>
                                 <td>${publication.title}</td>
                                 <td>${publication.problem.name}</td>
-                                <td>${publication.psychologist.name}</td>
+                                <%--<td>${publication.psychologist.name}</td>--%>
                                 <td><a href="<c:url value='/admin/edit-publication-${publication.id}' />" class="btn btn-success custom-width">Редактировать</a></td>
                                 <td><a href="<c:url value='/admin/delete-publication-${publication.id}' />" class="btn btn-danger custom-width">Удалить</a></td>
                             </tr>

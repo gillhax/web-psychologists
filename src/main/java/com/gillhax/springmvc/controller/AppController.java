@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -16,6 +17,12 @@ import com.gillhax.springmvc.controller.form.PsychologistForm;
 import com.gillhax.springmvc.util.FileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -61,9 +68,16 @@ public class AppController {
     public String listPublication(ModelMap model, @PathVariable Integer id) {
         List<Problem> problems = problemService.findAllProblem();
         model.addAttribute("problems", problems);
-
         model.addAttribute("publication", publicationService.findById(id));
         return "publication";
+    }
+
+    @RequestMapping(value = {  "/psychologist-{id}" }, method = RequestMethod.GET)
+    public String aboutPsychologist(ModelMap model, @PathVariable Integer id) {
+        List<Problem> problems = problemService.findAllProblem();
+        model.addAttribute("problems", problems);
+        model.addAttribute("psychologist", psychologistService.findById(id));
+        return "psychologist";
     }
 
     @RequestMapping(value = { "/list" }, method = RequestMethod.GET)
@@ -79,20 +93,55 @@ public class AppController {
 
     //!!Admin pages
 
-    @RequestMapping(value = {"/", "/admin/" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
+    public String loginPage() {
+        return "/admin/login";
+    }
+
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            SecurityContextHolder.clearContext();
+            new CookieClearingLogoutHandler(AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY).logout(request, response, auth);
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/admin/login?logout";
+    }
+
+    private String getPrincipal(){
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
+
+
+
+    @RequestMapping(value = { "/admin" }, method = RequestMethod.GET)
     public String adminIndex(ModelMap model) {
-        return "admin/index";
+        model.addAttribute("username", getPrincipal());
+        model.addAttribute("psychologist", psychologistService.findByUsername(getPrincipal()));
+        return "admin/psychologist";
     }
 
     @RequestMapping(value = { "/admin/problems" }, method = RequestMethod.GET)
     public String adminProblemList(ModelMap model) {
         List<Problem> problems = problemService.findAllProblem();
+        model.addAttribute("username", getPrincipal());
         model.addAttribute("problems", problems);
         return "admin/problem";
     }
 
     @RequestMapping(value = { "/admin/new-problem" }, method = RequestMethod.GET)
     public String adminNewProblem(ModelMap model) {
+        model.addAttribute("username", getPrincipal());
         model.addAttribute("problem", new Problem());
         model.addAttribute("edit", false);
         return "/admin/change-problem";
@@ -102,6 +151,7 @@ public class AppController {
     public String adminSaveProblem(@Valid Problem problem, BindingResult result,
                               ModelMap model) {
         if (result.hasErrors()) {
+            model.addAttribute("username", getPrincipal());
             model.addAttribute("edit", false);
             return "/admin/change-problem";
         }
@@ -111,6 +161,7 @@ public class AppController {
 
     @RequestMapping(value = { "/admin/edit-problem-{id}" }, method = RequestMethod.GET)
     public String adminEditProblem(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("username", getPrincipal());
         model.addAttribute("problem", problemService.findById(id));
         model.addAttribute("edit", true);
         return "/admin/change-problem";
@@ -120,6 +171,7 @@ public class AppController {
     public String adminUpdateProblem(@Valid Problem problem, BindingResult result,
                                 ModelMap model, @PathVariable Integer id) {
         if (result.hasErrors()) {
+            model.addAttribute("username", getPrincipal());
             model.addAttribute("edit", true);
             return "/admin/change-problem";
         }
@@ -137,8 +189,10 @@ public class AppController {
     //!!admin/publications
     @RequestMapping(value = { "/admin/publications" }, method = RequestMethod.GET)
     public String adminPublicationList(ModelMap model) {
-        List<Publication> publications = publicationService.findAllPublication();
+        List<Publication> publications = publicationService.
+                findPublicationsByPsychologist(psychologistService.findByUsername(getPrincipal()));
         model.addAttribute("publications", publications);
+        model.addAttribute("username", getPrincipal());
         return "admin/publication";
     }
 
@@ -146,8 +200,8 @@ public class AppController {
     public String adminNewPublication(ModelMap model) {
         model.addAttribute("publication", new Publication());
         model.addAttribute("problems", problemService.findAllProblem());
-        model.addAttribute("psychologists", psychologistService.findAllPsychologist());
         model.addAttribute("edit", false);
+        model.addAttribute("username", getPrincipal());
         return "/admin/change-publication";
     }
 
@@ -157,19 +211,20 @@ public class AppController {
         if (result.hasErrors()) {
             model.addAttribute("edit", false);
             model.addAttribute("problems", problemService.findAllProblem());
-            model.addAttribute("psychologists", psychologistService.findAllPsychologist());
+            model.addAttribute("username", getPrincipal());
             return "/admin/change-publication";
         }
+        publication.setPsychologist(psychologistService.findByUsername(getPrincipal()));
         publicationService.savePublication(publication);
         return "redirect:/admin/publications";
     }
 
-    @RequestMapping(value = { "//admin/edit-publication-{id}" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/admin/edit-publication-{id}" }, method = RequestMethod.GET)
     public String adminEditPublication(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("publication", publicationService.findById(id));
         model.addAttribute("problems", problemService.findAllProblem());
-        model.addAttribute("psychologists", psychologistService.findAllPsychologist());
         model.addAttribute("edit", true);
+        model.addAttribute("username", getPrincipal());
         return "/admin/change-publication";
     }
 
@@ -178,10 +233,11 @@ public class AppController {
                                     ModelMap model, @PathVariable Integer id) {
         if (result.hasErrors()) {
             model.addAttribute("problems", problemService.findAllProblem());
-            model.addAttribute("psychologists", psychologistService.findAllPsychologist());
             model.addAttribute("edit", true);
+            model.addAttribute("username", getPrincipal());
             return "/admin/change-publication";
         }
+        publication.setPsychologist(psychologistService.findByUsername(getPrincipal()));
         publicationService.updatePublication(publication);
         return "redirect:/admin/publications";
     }
@@ -190,6 +246,36 @@ public class AppController {
     public String adminDeletePublication(@PathVariable Integer id) {
         publicationService.deletePublicationById(id);
         return "redirect:/admin/publications";
+    }
+
+    //!!admin/psychologist
+    @RequestMapping(value = { "/admin/edit-psychologist" }, method = RequestMethod.GET)
+    public String adminEditPsychologist(ModelMap model) {
+        model.addAttribute("psychologistForm", new PsychologistForm(psychologistService.findByUsername(getPrincipal())));
+        model.addAttribute("username", getPrincipal());
+        return "admin/change-psychologist";
+    }
+
+    @RequestMapping(value = { "admin/edit-psychologist" }, method = RequestMethod.POST)
+    public String adminUpdatePsychologist(@Valid PsychologistForm psychologistForm, BindingResult result,
+                                     ModelMap model) throws IOException {
+        if (result.hasErrors()) {
+            model.addAttribute("username", getPrincipal());
+            return "change-psychologist";
+        }
+        if(psychologistForm.getFile().getContentType().equalsIgnoreCase("application/octet-stream")) {
+            psychologistService.updatePsychologist(psychologistForm);
+            return "redirect:/admin";
+        }
+        else {
+            if (PsychologistForm.preparePsychologistToDelete(psychologistService.findByUsername(getPrincipal()).getPhoto())) {
+                psychologistService.updatePsychologist(psychologistForm.preparePsychologistToSave());
+                return "redirect:/admin";
+            } else {
+                model.addAttribute("username", getPrincipal());
+                return "/admin/change-psychologist";
+            }
+        }
     }
 
 
